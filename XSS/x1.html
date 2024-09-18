@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerable XSS Search Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6e6fa; /* Light purple background */
+            color: #4b0082; /* Indigo text color */
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #9370db; /* Medium purple */
+            color: white;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        .search-result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #4b0082;
+        }
+        #loading {
+            display: none; /* Initially hidden */
+            font-size: 1.1em;
+            color: #9370db; /* Same purple as the header */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Vulnerable XSS Search Page</h1>
+        <p>Enter a search query and see the result displayed below (vulnerable to XSS).</p>
+    </div>
+
+    <div class="content">
+        <h2>Search Function</h2>
+        <p>Type something to search:</p>
+        <form id="searchForm">
+            <input type="text" id="searchInput" placeholder="Enter search term">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <script>
+        // Handle form submission with redirection to a vulnerable endpoint
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+            // Get the user's input
+            const searchInput = document.getElementById('searchInput').value;
+
+            // Redirect the user to the vulnerable API endpoint with the search query
+            window.location.href = 'http://localhost:3000/api/search?query=' + encodeURIComponent(searchInput);
+        });
+    </script>
+</body>
+</html>
